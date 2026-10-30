@@ -608,7 +608,7 @@ extern  "C" {
     extern void lame_report_def(const char* format, va_list args);
     extern void lame_report_fnc(lame_report_function print_f, const char *, ...);
 
-#if USE_LOGGING_HACK==0
+#if USE_LOGGING_HACK==0 && LAME_LOGGING_ACTIVE
 extern void lame_errorf(const lame_internal_flags * gfc, const char *, ...);
 extern void lame_debugf(const lame_internal_flags * gfc, const char *, ...);
 extern void lame_msgf(const lame_internal_flags * gfc, const char *, ...);

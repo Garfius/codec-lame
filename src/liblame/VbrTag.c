@@ -172,6 +172,7 @@ Xing_seek_table(VBR_seek_info_t const* v, unsigned char *t)
 static void
 print_seeking(unsigned char *t)
 {
+#if LAME_LOGGING_ACTIVE
     DEBUGF(gfc,__FUNCTION__);
     int     i;
 
@@ -180,6 +181,9 @@ print_seeking(unsigned char *t)
         printf(" %d ", t[i]);
     }
     printf("\n");
+#else
+    (void)t;
+#endif
 }
 #endif
 
@@ -460,7 +464,7 @@ GetVbrTag(VBRTAGDATA * pTagData, const unsigned char *buf)
     pTagData->enc_delay = enc_delay;
     pTagData->enc_padding = enc_padding;
 
-#ifdef DEBUG_VBRTAG
+#if LAME_LOGGING_ACTIVE && defined(DEBUG_VBRTAG)
     fprintf(stderr, "\n\n********************* VBR TAG INFO *****************\n");
     fprintf(stderr, "tag         :%s\n", VBRTag);
     fprintf(stderr, "head_flags  :%d\n", head_flags);

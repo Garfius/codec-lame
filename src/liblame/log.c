@@ -7,12 +7,17 @@
 char log_msg[MAX_LOG_LEN];
 
 int lame_write(char const s[static 1]) {
+#if LAME_LOGGING_ACTIVE
     for (size_t i = 0; s[i]; ++i)
         if (putchar(s[i]) == EOF) return EOF;
+#else
+    (void)s;
+#endif
     return 0;
 }
 
 void print_log(const char* file, int line, const char* current_level) {
+#if LAME_LOGGING_ACTIVE
     const char* file_name = strrchr(file, '/') ? strrchr(file, '/') + 1 : file;
     lame_write("[");
     lame_write(current_level);
@@ -25,4 +30,9 @@ void print_log(const char* file, int line, const char* current_level) {
     lame_write(" - ");
     lame_write(log_msg);
     lame_write("\n");
+#else
+    (void)file;
+    (void)line;
+    (void)current_level;
+#endif
 }

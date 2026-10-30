@@ -82,6 +82,19 @@ This is just one of many __codecs__ that I have collected so far: Further detail
 
 This library requires quite a lot of RAM and it should work (on a ESP32) if you just use this decoder w/o any additional functionality that requires additional RAM. If you want to use e.g. WIFI together with this library you might not have enough RAM: Fortunately this library supports PSRAM so if you activate PSRAM you should have more then enough headroom...  
 
+### Logging
+
+Logging is disabled by default (`LAME_LOGGING_ACTIVE=0`) across the C library
+and C++ wrapper, including debug and allocation diagnostics. Disabled logging
+does not format messages, evaluate logging arguments, or access stdout/stderr.
+
+To enable logging, pass `-DLAME_LOGGING_ACTIVE=1` to **all C and C++ compilation
+units** (for example, using PlatformIO `build_flags`), or change the shared
+default in `src/liblame/config.h`. Defining it only in an Arduino sketch or
+application source file does not configure separately compiled library sources.
+Enabled logging uses the existing stdout/stderr backends, so initialize the
+platform's standard output support before enabling it on a microcontroller.
+
 ### Changes to the Original Code
 The initial restructured code was working prefectly with my [Arduino Simulator](https://github.com/pschatzmann/Arduino-Emulator) on the desktop, but as soon I as I deployed it on an ESP32 it was crashing because of different reasons:
 

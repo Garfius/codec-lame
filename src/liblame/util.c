@@ -740,7 +740,7 @@ fill_buffer(lame_internal_flags * gfc,
 *  Message Output
 *
 ***********************************************************************/
-#if USE_LOGGING_HACK==0
+#if USE_LOGGING_HACK==0 && LAME_LOGGING_ACTIVE
 
 void
 lame_report_def(const char *format, va_list args)

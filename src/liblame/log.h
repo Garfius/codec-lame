@@ -10,17 +10,22 @@ void print_log(const char* file, int line, const char* current_level);
 extern char log_msg[MAX_LOG_LEN];
 
 
-#if USE_LOGGING_HACK
+#if USE_LOGGING_HACK || !LAME_LOGGING_ACTIVE
 
     #define DEBUGF  lame_debugf 
     #define ERRORF  lame_errorf
     #define MSGF    lame_msgf
 
-    #define lame_errorf(gfc, ...) {  snprintf(log_msg, 512, __VA_ARGS__);  print_log(__FILE__,__LINE__, "Error"); }
-    #define lame_msgf(gfc,  ...)   { snprintf(log_msg, 512, __VA_ARGS__);  print_log(__FILE__,__LINE__, "Info"); }
-    #if USE_DEBUG
+    #if LAME_LOGGING_ACTIVE
+        #define lame_errorf(gfc, ...) {  snprintf(log_msg, 512, __VA_ARGS__);  print_log(__FILE__,__LINE__, "Error"); }
+        #define lame_msgf(gfc,  ...)   { snprintf(log_msg, 512, __VA_ARGS__);  print_log(__FILE__,__LINE__, "Info"); }
+    #else
+        #define lame_errorf(gfc, ...) do { } while (0)
+        #define lame_msgf(gfc, ...) do { } while (0)
+    #endif
+    #if LAME_LOGGING_ACTIVE && USE_DEBUG
         #define lame_debugf(gfc, ...) {  snprintf(log_msg, 512, __VA_ARGS__);  print_log(__FILE__,__LINE__, "Debug"); }
     #else
-        #define lame_debugf(gfc, ...) 
+        #define lame_debugf(gfc, ...) do { } while (0)
     #endif
 #endif

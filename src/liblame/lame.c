@@ -2528,7 +2528,7 @@ lame_init_old(lame_global_flags * gfp)
 
     gfp->write_id3tag_automatic = 1;
 
-#if !(USE_LOGGING_HACK)
+#if !USE_LOGGING_HACK && LAME_LOGGING_ACTIVE
     gfp->report.debugf = &lame_report_def;
     gfp->report.errorf = &lame_report_def;
     gfp->report.msgf = &lame_report_def;
@@ -2578,7 +2578,7 @@ lame_init(void)
 #endif
 
     gfp->lame_allocated_gfp = 1;
-    MSGF(gfc,"lame_init - success")
+    MSGF(gfc,"lame_init - success");
     return gfp;
 }
 
@@ -2788,7 +2788,7 @@ void* debug_calloc(int count, int size){
 #endif    
 
     if (result!=NULL) {
-#if USE_DEBUG_ALLOC && ESP32
+#if LAME_LOGGING_ACTIVE && USE_DEBUG_ALLOC && ESP32
         printf("==> calloc(%d,%d) -> %p - ", count, size, result);
         printf(" available MALLOC_CAP_8BIT: %d", heap_caps_get_largest_free_block(MALLOC_CAP_8BIT));
         printf(" / MALLOC_CAP_32BIT: %d ", heap_caps_get_largest_free_block(MALLOC_CAP_32BIT));
@@ -2796,7 +2796,7 @@ void* debug_calloc(int count, int size){
 #endif
     } else {
         lame_errorf(gfc, "calloc(%d,%d) -> %p ", count, size, result);
-#ifdef ESP32
+#if LAME_LOGGING_ACTIVE && defined(ESP32)
         printf("available MALLOC_CAP_8BIT: %d", heap_caps_get_largest_free_block(MALLOC_CAP_8BIT));
         printf(" / MALLOC_CAP_32BIT: %d ", heap_caps_get_largest_free_block(MALLOC_CAP_32BIT));
         printf(" / MALLOC_CAP_SPIRAM: %d\n", heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM));
@@ -2810,7 +2810,7 @@ void* debug_calloc(int count, int size){
 
 
 void debug_free(void* ptr){
-#if USE_DEBUG_ALLOC
+#if LAME_LOGGING_ACTIVE && USE_DEBUG_ALLOC
     printf("==> free (%p)\n",ptr);
 #endif
     free(ptr);

@@ -11,17 +11,12 @@
 #pragma once
 #include "liblame/log.h"
 
-// User Settings: Activate/Deactivate logging
-#ifndef LAME_LOGGING_ACTIVE
-#define LAME_LOGGING_ACTIVE true
-#endif
-
 #ifndef LAME_LOG_LEVEL
 #define LAME_LOG_LEVEL LAMEInfo
 #endif
 
 // Logging Implementation
-#if LAME_LOGGING_ACTIVE == true
+#if LAME_LOGGING_ACTIVE
 
 enum LogLevelLame {LAMEDebug, LAMEInfo, LAMEWarning, LAMEError};
 static int LOGLEVEL_LAME = LAMEWarning;
@@ -44,5 +39,5 @@ static const char* levelName(LogLevelLame level) {
 #define LOG_LAME(level,...) { if(level>=LOGLEVEL_LAME) {  snprintf(log_msg, MAX_LOG_LEN, __VA_ARGS__);  print_log(__FILE__,__LINE__, levelName(level)); } }
 #else
 // Remove all log statments from the code
-#define LOG_LAME(level, ...) 
+#define LOG_LAME(level, ...) do { } while (0)
 #endif

@@ -34,6 +34,10 @@
 #  define ESP_PSRAM_ENABLE_LIMIT 1024
 #endif
 
+#ifndef LAME_LOGGING_ACTIVE
+#  define LAME_LOGGING_ACTIVE 0
+#endif
+
 // Not all microcontroller support vararg methods: alternative impelemtation of logging using the preprocessor
 #ifndef USE_LOGGING_HACK
 #  define USE_LOGGING_HACK 1
